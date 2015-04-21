@@ -1,11 +1,18 @@
-load coordinates.dat
-load elements.dat
+addpath('./library_vectorization')
+
+%problemset = 'twotriangles';
+problemset = 'l-shape';
+
+path = ['./problem_settings/'  problemset  '/'];
+coordinates = load([path  'coordinates.dat']);
+elements = load([path  'elements.dat']);
+
 
 % nodes2coordinates = coordinates
 % elems2nodes        = elements
 
 % print mesh
-figure(1); show_mesh(elements,coordinates); axis([0 8 0 6]); title('mesh');
+figure(1); show_mesh(elements,coordinates); title('mesh');
 
 % calculate lookup matrices:
 %   elems2edges: i-th row gives the edges of the i-th triangle
@@ -14,11 +21,14 @@ figure(1); show_mesh(elements,coordinates); axis([0 8 0 6]); title('mesh');
 
 % calculate the affine transformation between each triangle and the
 % reference triangle
-[B,b,detB] = transformations(coordinates,elements);
+[B_F,b_F,detB_F] = transformations(coordinates,elements);
 
 % since 
 signs = get_signs(elements);
 
 % assemble mass matrix
-M = mass_matrix(elems2edges,B,detB,signs);
+A = mass_matrix(elems2edges,B_F,detB_F,signs);
+
+% assemble stiffness matrix
+
 
