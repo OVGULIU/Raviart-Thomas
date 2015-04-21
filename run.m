@@ -29,6 +29,9 @@ signs = get_signs(elements);
 % assemble mass matrix
 A = mass_matrix(elems2edges,B_F,detB_F,signs);
 
-% assemble stiffness matrix
+% assemble divergence matrix
+B = divergence_matrix();
+
+
 
 
