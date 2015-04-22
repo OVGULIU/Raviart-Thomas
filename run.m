@@ -1,9 +1,13 @@
+clear all
+
 addpath('./library_vectorization')
+
 
 problemset = 'twotriangles';
 %problemset = 'l-shape';
 
 path = ['./problem_settings/'  problemset  '/'];
+addpath(path);
 coordinates = load([path  'coordinates.dat']);
 elements = load([path  'elements.dat']);
 
@@ -23,7 +27,7 @@ figure(1); show_mesh(elements,coordinates); title('mesh');
 % reference triangle
 [B_F,b_F,detB_F] = transformations(coordinates,elements);
 
-% since 
+% signs 
 signs = get_signs(elements);
 
 % assemble mass matrix
@@ -32,6 +36,9 @@ A = mass_matrix(elems2edges,B_F,detB_F,signs);
 % assemble divergence matrix
 B = divergence_matrix(elems2edges,edges2nodes,signs);
 
+% assemble right sides
+b_f = f_vector(coordinates, elements,@f);
 
 
+rmpath(path)
 
