@@ -1,7 +1,7 @@
 addpath('./library_vectorization')
 
-%problemset = 'twotriangles';
-problemset = 'l-shape';
+problemset = 'twotriangles';
+%problemset = 'l-shape';
 
 path = ['./problem_settings/'  problemset  '/'];
 coordinates = load([path  'coordinates.dat']);
@@ -30,7 +30,7 @@ signs = get_signs(elements);
 A = mass_matrix(elems2edges,B_F,detB_F,signs);
 
 % assemble divergence matrix
-B = divergence_matrix();
+B = divergence_matrix(elems2edges,edges2nodes,signs);
 
 
 
